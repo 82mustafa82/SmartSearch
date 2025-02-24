@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Belge</title> 
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script> 
+    <style>
+
+        body {
+            font-family: monospace;  /* Sayfa geneli */
+        }
+
+        #chatbox {
+            margin-left: auto;
+            margin-right: auto;
+            width: 80%;
+            margin-top: 50px;  /* Chatbox */
+        }
+
+        .botText {
+            font-family: monospace;
+            font-size: 16px;
+            text-align: left;
+            line-height: 25px;
+            color: green;  /* Bot mesajları */
+        }
+
+        #userInput {
+            margin-left: auto;
+            margin-right: auto;
+            width: 80%;
+            text-align: center;
+            margin-top: 50px;  /* Kullanıcı giriş kutusu */
+        }
+
+        #textInput {
+            border: 3px solid white;
+            border-bottom: 3px dotted #657889;
+            font-family: monospace;
+            font-size: 16px;
+            width: 60%;
+            padding: 20px;
+            color: blue;  /* Kullanıcı mesajı */
+        }
+
+        #buttonInput {
+            padding: 5px;
+            font-family: monospace;
+            font-size: 16px;
+            padding: 10px;
+            border: 3px solid #58ff7c;
+            background-color: green;
+            color: white;
+            border-radius: 10px;  /* Gönder butonu */
+        }
+
+        h1 {
+            text-align: center;
+            color: green;  /* Başlık */
+        }
+
+        .userText {
+            text-align: right;  /* Kullanıcı mesajları */
+        }
+    </style>
+</head>
+<body>
+    <h1>Eğitim Önerisi Chatbot Uygulaması</h1> 
+
+    <div>
+        <!-- Chatbox -->
+        <div id="chatbox">
+            <p class="botText">
+                <span>
+                    Merhaba!
+                </span>
+            </p>
+            <p class="botText">
+                <span>
+                    Lütfen eğitim önerisi almak istediğiniz yetkinlik veya konuyu giriniz...
+                </span>
+            </p>
+        </div>
+
+        <div id="userInput">
+            <input id="textInput" type="text" name="userMessage" placeholder="Mesajınızı yazın..."/> 
+            <input id="buttonInput" type="submit" value="Gönder"/> 
+        </div>
+    </div>
+
+    <script>
+        function getUserResponse() {
+            var userText = $('#textInput').val();  // Mesaj alınır
+            var userHTML = "<p class='userText'> Kullanıcı: <span>" + userText + "</span></p>";  // HTML formatında hazırlanır
+            $('#textInput').val("");  // Giriş kutusunu temizlenir
+            $('#chatbox').append(userHTML);  // Mesajını chatbox'a eklenir
+            document.getElementById("userInput").scrollIntoView({ block: 'start', behavior: 'smooth' });  
+
+            // API'ye istek 
+            $.get("/get", { userMessage: userText }).done(function (data) {
+                var formattedData = data.join("<br>");  // API'den dönen veriyi formatlama
+                var botHTML = "<p class='botText'> Sohbet robotu:<br>" + formattedData + "</p>";  // Bot cevabını HTML formatında hazırlama
+                $('#chatbox').append(botHTML);  
+            });
+        }
+
+        // Mesaj gönderimleri 
+        $("#textInput").keypress(function(e){
+            if(e.which == 13){
+                getUserResponse();  
+            }
+        });
+        $('#buttonInput').click(function(){
+            getUserResponse(); 
+        })
+    </script>
+</body>
+</html>
