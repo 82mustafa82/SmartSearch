@@ -35,17 +35,17 @@ Aşağıdaki adımları takip ederek projeyi yerel ortamınızda çalıştırabi
 
 ### 📥 Kurulum
 
-1. **Gerekli Bağımlılıkları Yükleyin**
-   ```
-   cd smartsearch
-   pip install -r requirements.txt
-   ```
-
-2. **Sanal ortam oluşturun (Opsiyonel)**
+1. **Sanal ortam oluşturun**
    ```sh
    python -m venv venv
    source venv/bin/activate  # Mac/Linux
    venv\Scripts\activate     # Windows
+   ```
+
+2. **Gerekli Bağımlılıkları Yükleyin**
+   ```
+   cd smartsearch
+   pip install -r requirements.txt
    ```
 
 3. **MongoDB Bağlantısını Güncelleyin**
